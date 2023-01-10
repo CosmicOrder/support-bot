@@ -22,8 +22,11 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, \
     CallbackContext
 
 # Enable logging
+from sample import detect_intent_texts
+
 logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    level=logging.INFO
 )
 
 logger = logging.getLogger(__name__)
@@ -43,7 +46,12 @@ def help_command(update: Update, context: CallbackContext) -> None:
 
 def echo(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
-    update.message.reply_text(update.message.text)
+    df_reply = detect_intent_texts(project_id='ogeko-mfcu',
+                                   session_id=12345,
+                                   language_code='ru',
+                                   texts=update.message.text)
+    update.message.reply_text(df_reply)
+    # update.message.reply_text(update.message.text)
 
 
 def main() -> None:
@@ -59,7 +67,8 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler("help", help_command))
 
     # on non command i.e message - echo the message on Telegram
-    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+    dispatcher.add_handler(
+        MessageHandler(Filters.text & ~Filters.command, echo))
 
     # Start the Bot
     updater.start_polling()
