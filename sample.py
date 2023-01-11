@@ -76,8 +76,7 @@ if __name__ == "__main__":
         "--project-id",
         help="Project/agent id.  Required.",
         # required=True,
-        default='ogeko-mfcu'
-
+        default='ogeko-mfcu',
     )
     parser.add_argument(
         "--session-id",
@@ -87,8 +86,8 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--language-code",
-        help='Language code of the query. Defaults to "ru".',
-        default="ru",
+        help='Language code of the query. Defaults to "eng".',
+        default="eng",
     )
     parser.add_argument("texts", nargs="+", type=str, help="Text inputs.")
 

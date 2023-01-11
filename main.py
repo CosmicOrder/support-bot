@@ -48,7 +48,7 @@ def echo(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
     df_reply = detect_intent_texts(project_id='ogeko-mfcu',
                                    session_id=12345,
-                                   language_code='ru',
+                                   language_code='eng',
                                    texts=update.message.text)
     update.message.reply_text(df_reply)
     # update.message.reply_text(update.message.text)
