@@ -54,7 +54,7 @@ def echo(update: Update, context: CallbackContext) -> None:
     # update.message.reply_text(update.message.text)
 
 
-def main() -> None:
+def main(tg_bot_token) -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
     updater = Updater(token=tg_bot_token)
@@ -83,4 +83,4 @@ if __name__ == '__main__':
     load_dotenv()
     tg_bot_token = os.getenv('TG_BOT_TOKEN')
 
-    main()
+    main(tg_bot_token)
