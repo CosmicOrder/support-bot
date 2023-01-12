@@ -5,11 +5,17 @@ import vk_api as vk
 from dotenv import load_dotenv
 from vk_api.longpoll import VkLongPoll, VkEventType
 
+from detect_intent_texts import detect_intent_texts
+
 
 def echo(event, vk_api):
+    df_reply = detect_intent_texts(project_id='ogeko-mfcu',
+                                   session_id=12345,
+                                   language_code='eng',
+                                   texts=event.text)
     vk_api.messages.send(
         user_id=event.user_id,
-        message=event.text,
+        message=df_reply,
         random_id=random.randint(1, 1000)
     )
 

@@ -22,7 +22,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, \
     CallbackContext
 
 # Enable logging
-from sample import detect_intent_texts
+from detect_intent_texts import detect_intent_texts
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
