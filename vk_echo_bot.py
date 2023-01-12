@@ -13,11 +13,12 @@ def echo(event, vk_api):
                                    session_id=12345,
                                    language_code='eng',
                                    texts=event.text)
-    vk_api.messages.send(
-        user_id=event.user_id,
-        message=df_reply,
-        random_id=random.randint(1, 1000)
-    )
+    if df_reply:
+        vk_api.messages.send(
+            user_id=event.user_id,
+            message=df_reply,
+            random_id=random.randint(1, 1000)
+        )
 
 
 def main_vk(vk_group_token):
