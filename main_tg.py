@@ -23,17 +23,18 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, \
 
 # Enable logging
 from detect_intent_texts import detect_intent_texts
+from logs_handlers import SupportLogsHandler
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(__file__)
 
 
-# Define a few command handlers. These usually take the two arguments update and
-# context.
+# Define a few command handlers. These usually take the two arguments update
+# and context.
 def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
     update.message.reply_text('Здравствуйте')
@@ -51,13 +52,13 @@ def echo(update: Update, context: CallbackContext) -> None:
                                    language_code='eng',
                                    texts=update.message.text)
     update.message.reply_text(df_reply)
-    # update.message.reply_text(update.message.text)
 
 
-def main(tg_bot_token) -> None:
+def main(support_bot_token) -> None:
     """Start the bot."""
     # Create the Updater and pass it your bot's token.
-    updater = Updater(token=tg_bot_token)
+    updater = Updater(token=support_bot_token)
+    logger.addHandler(SupportLogsHandler(updater.bot, CHAT_ID))
 
     # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
@@ -72,6 +73,7 @@ def main(tg_bot_token) -> None:
 
     # Start the Bot
     updater.start_polling()
+    logger.info("ТГ-бот запущен")
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
@@ -81,6 +83,14 @@ def main(tg_bot_token) -> None:
 
 if __name__ == '__main__':
     load_dotenv()
-    tg_bot_token = os.getenv('TG_BOT_TOKEN')
+    logging.basicConfig(level=logging.ERROR)
+    logger.setLevel(logging.DEBUG)
 
-    main(tg_bot_token)
+    SUPPORT_BOT_TOKEN = os.getenv('SUPPORT_BOT_TOKEN')
+    CHAT_ID = os.getenv('CHAT_ID')
+
+    while True:
+        try:
+            main(SUPPORT_BOT_TOKEN)
+        except Exception as ex:
+            logger.exception(ex)
