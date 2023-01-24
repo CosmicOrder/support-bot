@@ -29,7 +29,6 @@ import argparse
 import uuid
 
 
-# [START dialogflow_es_detect_intent_text]
 def detect_intent_texts(project_id, session_id, texts, language_code):
     """Returns the result of detect intent with texts as inputs.
     Using the same `session_id` between requests allows continuation
@@ -41,7 +40,6 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
     session = session_client.session_path(project_id, session_id)
     print("Session path: {}\n".format(session))
 
-    # for text in texts:
     text_input = dialogflow.TextInput(text=texts,
                                       language_code=language_code)
 
@@ -65,9 +63,6 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
     return response.query_result.fulfillment_text
 
 
-# [END dialogflow_es_detect_intent_text]
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description=__doc__,
@@ -76,13 +71,11 @@ if __name__ == "__main__":
     parser.add_argument(
         "--project-id",
         help="Project/agent id.  Required.",
-        # required=True,
         default='ogeko-mfcu',
     )
     parser.add_argument(
         "--session-id",
         help="Identifier of the DetectIntent session. " "Defaults to a random UUID.",
-        # default=str(uuid.uuid4()),
         default='12345',
     )
     parser.add_argument(
