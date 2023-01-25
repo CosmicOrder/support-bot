@@ -33,19 +33,9 @@ logging.basicConfig(
 logger = logging.getLogger(__file__)
 
 
-def start(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /start is issued."""
-    update.message.reply_text('Здравствуйте')
-
-
-def help_command(update: Update, context: CallbackContext) -> None:
-    """Send a message when the command /help is issued."""
-    update.message.reply_text('Help!')
-
-
 def echo(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
-    
+
     df_reply = detect_intent_texts(project_id='ogeko-mfcu',
                                    session_id=12345,
                                    language_code='eng',
@@ -60,9 +50,6 @@ def main(support_bot_token) -> None:
     logger.addHandler(SupportLogsHandler(updater.bot, CHAT_ID))
 
     dispatcher = updater.dispatcher
-
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help_command))
 
     dispatcher.add_handler(
         MessageHandler(Filters.text & ~Filters.command, echo))
