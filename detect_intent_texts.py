@@ -34,7 +34,6 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
     Using the same `session_id` between requests allows continuation
     of the conversation."""
 
-
     session_client = dialogflow.SessionsClient()
 
     session = session_client.session_path(project_id, session_id)

@@ -33,8 +33,6 @@ logging.basicConfig(
 logger = logging.getLogger(__file__)
 
 
-# Define a few command handlers. These usually take the two arguments update
-# and context.
 def start(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /start is issued."""
     update.message.reply_text('Здравствуйте')
@@ -47,6 +45,7 @@ def help_command(update: Update, context: CallbackContext) -> None:
 
 def echo(update: Update, context: CallbackContext) -> None:
     """Echo the user message."""
+    
     df_reply = detect_intent_texts(project_id='ogeko-mfcu',
                                    session_id=12345,
                                    language_code='eng',
@@ -56,28 +55,21 @@ def echo(update: Update, context: CallbackContext) -> None:
 
 def main(support_bot_token) -> None:
     """Start the bot."""
-    # Create the Updater and pass it your bot's token.
+
     updater = Updater(token=support_bot_token)
     logger.addHandler(SupportLogsHandler(updater.bot, CHAT_ID))
 
-    # Get the dispatcher to register handlers
     dispatcher = updater.dispatcher
 
-    # on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("start", start))
     dispatcher.add_handler(CommandHandler("help", help_command))
 
-    # on non command i.e message - echo the message on Telegram
     dispatcher.add_handler(
         MessageHandler(Filters.text & ~Filters.command, echo))
 
-    # Start the Bot
     updater.start_polling()
     logger.info("ТГ-бот запущен")
 
-    # Run the bot until you press Ctrl-C or the process receives SIGINT,
-    # SIGTERM or SIGABRT. This should be used most of the time, since
-    # start_polling() is non-blocking and will stop the bot gracefully.
     updater.idle()
 
 
