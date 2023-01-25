@@ -1,12 +1,9 @@
 import argparse
+import os
 
 import requests
-
-
-def fetch_training_phrases(intent_name, text_type):
-    url = 'https://dvmn.org/media/filer_public/a7/db/a7db66c0-1259-4dac-9726-2d1fa9c44f20/questions.json'
-    response = requests.get(url)
-    return response.json()[intent_name][text_type]
+from dotenv import load_dotenv
+from requests import HTTPError
 
 
 def create_intent(project_id, display_name, training_phrases_parts,
@@ -41,36 +38,33 @@ def create_intent(project_id, display_name, training_phrases_parts,
 
 
 if __name__ == '__main__':
+    load_dotenv()
+
     parser = argparse.ArgumentParser(
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument(
-        "--project-id",
+        "project-id",
         help="Project/agent id.  Required.",
-        default='ogeko-mfcu',
-    )
-    parser.add_argument(
-        "--intent",
-        type=str,
-        help='name of intent for training DF',
-        default='Забыл пароль',
     )
 
     args = parser.parse_args()
 
-    training_phrases_parts = fetch_training_phrases(
-        args.intent,
-        'questions',
-    )
-    message_texts = fetch_training_phrases(
-        args.intent,
-        'answer',
-    )
+    URL = os.getenv('URL')
 
-    create_intent(
-        args.project_id,
-        args.intent,
-        training_phrases_parts,
-        [message_texts],
-    )
+    response = requests.get(URL)
+    response.raise_for_status()
+
+    intents_in_json = response.json()
+
+    for intent in intents_in_json:
+        training_phrases_parts = intents_in_json[intent]['questions']
+        message_texts = intents_in_json[intent]['answer']
+
+        create_intent(
+            args.project_id,
+            intent,
+            training_phrases_parts,
+            [message_texts],
+        )
