@@ -24,10 +24,6 @@ from telegram.ext import Updater, MessageHandler, Filters, \
 from detect_intent_texts import detect_intent_texts
 from logs_handlers import SupportLogsHandler
 
-logging.basicConfig(
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
 
 logger = logging.getLogger(__file__)
 
