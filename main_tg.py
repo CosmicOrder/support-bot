@@ -18,10 +18,9 @@ import os
 
 from dotenv import load_dotenv
 from telegram import Update
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, \
+from telegram.ext import Updater, MessageHandler, Filters, \
     CallbackContext
 
-# Enable logging
 from detect_intent_texts import detect_intent_texts
 from logs_handlers import SupportLogsHandler
 
@@ -33,8 +32,8 @@ logging.basicConfig(
 logger = logging.getLogger(__file__)
 
 
-def echo(update: Update, context: CallbackContext) -> None:
-    """Echo the user message."""
+def support_reply(update: Update, context: CallbackContext) -> None:
+    """Reply the user message."""
 
     df_reply = detect_intent_texts(project_id='ogeko-mfcu',
                                    session_id=12345,
@@ -52,7 +51,7 @@ def main(support_bot_token) -> None:
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(
-        MessageHandler(Filters.text & ~Filters.command, echo))
+        MessageHandler(Filters.text & ~Filters.command, support_reply))
 
     updater.start_polling()
     logger.info("ТГ-бот запущен")

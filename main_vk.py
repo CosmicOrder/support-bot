@@ -13,7 +13,7 @@ from logs_handlers import SupportLogsHandler
 logger = logging.getLogger(__file__)
 
 
-def echo(event, vk_api):
+def support_reply(event, vk_api):
     df_reply = detect_intent_texts(project_id='ogeko-mfcu',
                                    session_id=12345,
                                    language_code='eng',
@@ -34,7 +34,7 @@ def main_vk(vk_group_token):
     logger.info('VK-бот запущен')
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            echo(event, vk_api)
+            support_reply(event, vk_api)
 
 
 if __name__ == "__main__":
