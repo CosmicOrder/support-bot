@@ -26,18 +26,7 @@ def support_reply(event, vk_api):
         )
 
 
-def main_vk(vk_group_token):
-    vk_session = vk.VkApi(token=vk_group_token)
-    vk_api = vk_session.get_api()
-
-    longpoll = VkLongPoll(vk_session)
-    logger.info('VK-бот запущен')
-    for event in longpoll.listen():
-        if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            support_reply(event, vk_api)
-
-
-if __name__ == "__main__":
+def main_vk():
     load_dotenv()
     logging.basicConfig(level=logging.ERROR)
     logger.setLevel(logging.DEBUG)
@@ -50,8 +39,19 @@ if __name__ == "__main__":
 
     logger.addHandler(SupportLogsHandler(bot, CHAT_ID))
 
+    vk_session = vk.VkApi(token=VK_GROUP_TOKEN)
+    vk_api = vk_session.get_api()
+
+    longpoll = VkLongPoll(vk_session)
+    logger.info('VK-бот запущен')
+    for event in longpoll.listen():
+        if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+            support_reply(event, vk_api)
+
+
+if __name__ == "__main__":
     while True:
         try:
-            main_vk(VK_GROUP_TOKEN)
+            main_vk()
         except Exception as ex:
             logger.exception(ex)

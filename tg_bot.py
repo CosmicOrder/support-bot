@@ -38,10 +38,16 @@ def support_reply(update: Update, context: CallbackContext) -> None:
     update.message.reply_text(df_reply)
 
 
-def main(support_bot_token) -> None:
+def main() -> None:
     """Start the bot."""
+    load_dotenv()
+    logging.basicConfig(level=logging.ERROR)
+    logger.setLevel(logging.DEBUG)
 
-    updater = Updater(token=support_bot_token)
+    SUPPORT_BOT_TOKEN = os.getenv('SUPPORT_BOT_TOKEN')
+    CHAT_ID = os.getenv('CHAT_ID')
+
+    updater = Updater(token=SUPPORT_BOT_TOKEN)
     logger.addHandler(SupportLogsHandler(updater.bot, CHAT_ID))
 
     dispatcher = updater.dispatcher
@@ -56,15 +62,8 @@ def main(support_bot_token) -> None:
 
 
 if __name__ == '__main__':
-    load_dotenv()
-    logging.basicConfig(level=logging.ERROR)
-    logger.setLevel(logging.DEBUG)
-
-    SUPPORT_BOT_TOKEN = os.getenv('SUPPORT_BOT_TOKEN')
-    CHAT_ID = os.getenv('CHAT_ID')
-
     while True:
         try:
-            main(SUPPORT_BOT_TOKEN)
+            main()
         except Exception as ex:
             logger.exception(ex)
