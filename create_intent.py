@@ -39,17 +39,7 @@ def create_intent(project_id, display_name, training_phrases_parts,
 if __name__ == '__main__':
     load_dotenv()
 
-    parser = argparse.ArgumentParser(
-        description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter
-    )
-    parser.add_argument(
-        "project-id",
-        help="Project/agent id.  Required.",
-    )
-
-    args = parser.parse_args()
-
+    PROJECT_ID = os.getenv('PRODJECT_ID')
     URL = os.getenv('URL')
 
     response = requests.get(URL)
@@ -62,7 +52,7 @@ if __name__ == '__main__':
         message_texts = intents_in_json[intent]['answer']
 
         create_intent(
-            args.project_id,
+            PROJECT_ID,
             intent,
             training_phrases_parts,
             [message_texts],
