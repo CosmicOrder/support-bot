@@ -15,6 +15,7 @@ bot.
 
 import logging
 import os
+import uuid
 
 from dotenv import load_dotenv
 from telegram import Update
@@ -31,10 +32,12 @@ logger = logging.getLogger(__file__)
 def support_reply(update: Update, context: CallbackContext) -> None:
     """Reply the user message."""
 
-    df_reply = detect_intent_texts(project_id='ogeko-mfcu',
-                                   session_id=12345,
+    PRODJECT_ID = os.getenv('PRODJECT_ID')
+    df_reply = detect_intent_texts(project_id=PRODJECT_ID,
+                                   session_id=uuid.uuid4(),
                                    language_code='eng',
-                                   texts=update.message.text)
+                                   texts=update.message.text,
+                                   type_bot='tg')
     update.message.reply_text(df_reply)
 
 

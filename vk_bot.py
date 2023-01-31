@@ -1,6 +1,7 @@
 import logging
 import os
 import random
+import uuid
 
 import telegram
 import vk_api as vk
@@ -14,16 +15,18 @@ logger = logging.getLogger(__file__)
 
 
 def support_reply(event, vk_api):
-    df_reply = detect_intent_texts(project_id='ogeko-mfcu',
-                                   session_id=12345,
+    PRODJECT_ID = os.getenv('PRODJECT_ID')
+    df_reply = detect_intent_texts(project_id=PRODJECT_ID,
+                                   session_id=uuid.uuid4(),
                                    language_code='eng',
-                                   texts=event.text)
-    if df_reply:
-        vk_api.messages.send(
-            user_id=event.user_id,
-            message=df_reply,
-            random_id=random.randint(1, 1000)
-        )
+                                   texts=event.text,
+                                   type_bot='vk')
+
+    vk_api.messages.send(
+        user_id=event.user_id,
+        message=df_reply,
+        random_id=random.randint(1, 1000)
+    )
 
 
 def main_vk():
