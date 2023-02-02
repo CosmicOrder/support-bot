@@ -45,11 +45,11 @@ if __name__ == '__main__':
     response = requests.get(URL)
     response.raise_for_status()
 
-    intents_in_json = response.json()
+    intents = response.json()
 
-    for intent in intents_in_json:
-        training_phrases_parts = intents_in_json[intent]['questions']
-        message_texts = intents_in_json[intent]['answer']
+    for intent in intents:
+        training_phrases_parts = intents[intent]['questions']
+        message_texts = intents[intent]['answer']
 
         create_intent(
             PROJECT_ID,
