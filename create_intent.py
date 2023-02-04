@@ -47,13 +47,16 @@ if __name__ == '__main__':
 
     intents = response.json()
 
-    for intent in intents:
-        training_phrases_parts = intents[intent]['questions']
-        message_texts = intents[intent]['answer']
+    for intent_name, phrases_parts in intents.items():
+        for phrases_type, phrases in phrases_parts.items():
+            if phrases_type == 'questions':
+                training_phrases_parts = phrases
+            elif phrases_type == 'answer':
+                message_texts = phrases
 
         create_intent(
             PROJECT_ID,
-            intent,
+            intent_name,
             training_phrases_parts,
             [message_texts],
         )
