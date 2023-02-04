@@ -57,5 +57,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     detect_intent_texts(
-        args.project_id, args.session_id, args.texts, args.language_code
+        args.project_id,
+        args.session_id,
+        args.texts,
+        args.language_code,
     )

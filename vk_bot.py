@@ -15,8 +15,8 @@ logger = logging.getLogger(__file__)
 
 
 def support_reply(event, vk_api):
-    PRODJECT_ID = os.getenv('PRODJECT_ID')
-    df_reply = detect_intent_texts(project_id=PRODJECT_ID,
+    project_id = os.getenv('PROJECT_ID')
+    df_reply = detect_intent_texts(project_id=project_id,
                                    session_id=uuid.uuid4(),
                                    language_code='eng',
                                    texts=event.text,

@@ -32,8 +32,8 @@ logger = logging.getLogger(__file__)
 def support_reply(update: Update, context: CallbackContext) -> None:
     """Reply the user message."""
 
-    PRODJECT_ID = os.getenv('PRODJECT_ID')
-    df_reply = detect_intent_texts(project_id=PRODJECT_ID,
+    project_id = os.getenv('PROJECT_ID')
+    df_reply = detect_intent_texts(project_id=project_id,
                                    session_id=uuid.uuid4(),
                                    language_code='eng',
                                    texts=update.message.text,

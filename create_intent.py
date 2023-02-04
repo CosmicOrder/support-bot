@@ -39,10 +39,10 @@ def create_intent(project_id, display_name, training_phrases_parts,
 if __name__ == '__main__':
     load_dotenv()
 
-    PROJECT_ID = os.getenv('PRODJECT_ID')
-    URL = os.getenv('URL')
+    project_id = os.getenv('PROJECT_ID')
+    url = os.getenv('URL')
 
-    response = requests.get(URL)
+    response = requests.get(url)
     response.raise_for_status()
 
     intents = response.json()
@@ -55,7 +55,7 @@ if __name__ == '__main__':
                 message_texts = phrases
 
         create_intent(
-            PROJECT_ID,
+            project_id,
             intent_name,
             training_phrases_parts,
             [message_texts],
