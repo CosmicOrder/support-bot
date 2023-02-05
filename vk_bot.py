@@ -14,8 +14,8 @@ from logs_handlers import SupportLogsHandler
 logger = logging.getLogger(__file__)
 
 
-def provide_support(event, vk_api):
-    project_id = os.getenv('PROJECT_ID')
+def provide_support(project_id, event, vk_api):
+
     df_reply = detect_intent_texts(project_id=project_id,
                                    session_id=uuid.uuid4(),
                                    language_code='eng',
@@ -34,6 +34,7 @@ def main():
     logging.basicConfig(level=logging.ERROR)
     logger.setLevel(logging.DEBUG)
 
+    project_id = os.getenv('PROJECT_ID')
     vk_group_token = os.getenv('VK_GROUP_TOKEN')
     support_bot_token = os.getenv('SUPPORT_BOT_TOKEN')
     chat_id = os.getenv('CHAT_ID')
@@ -51,7 +52,7 @@ def main():
             logger.info('VK-бот запущен')
             for event in longpoll.listen():
                 if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                        provide_support(event, vk_api)
+                    provide_support(project_id, event, vk_api)
         except Exception as ex:
             logger.exception(ex)
 
