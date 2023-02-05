@@ -50,23 +50,23 @@ def main() -> None:
     support_bot_token = os.getenv('SUPPORT_BOT_TOKEN')
     chat_id = os.getenv('CHAT_ID')
 
-    updater = Updater(token=support_bot_token)
-    logger.addHandler(SupportLogsHandler(updater.bot, chat_id))
+    while True:
+        try:
+            updater = Updater(token=support_bot_token)
+            logger.addHandler(SupportLogsHandler(updater.bot, chat_id))
 
-    dispatcher = updater.dispatcher
+            dispatcher = updater.dispatcher
 
-    dispatcher.add_handler(
-        MessageHandler(Filters.text & ~Filters.command, provide_support))
+            dispatcher.add_handler(
+                MessageHandler(Filters.text & ~Filters.command, provide_support))
 
-    updater.start_polling()
-    logger.info("ТГ-бот запущен")
+            updater.start_polling()
+            logger.info("ТГ-бот запущен")
 
-    updater.idle()
+            updater.idle()
+        except Exception as ex:
+            logger.exception(ex)
 
 
 if __name__ == '__main__':
-    while True:
-        try:
-            main()
-        except Exception as ex:
-            logger.exception(ex)
+    main()

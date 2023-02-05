@@ -29,7 +29,7 @@ def provide_support(event, vk_api):
     )
 
 
-def main_vk():
+def main():
     load_dotenv()
     logging.basicConfig(level=logging.ERROR)
     logger.setLevel(logging.DEBUG)
@@ -38,23 +38,23 @@ def main_vk():
     support_bot_token = os.getenv('SUPPORT_BOT_TOKEN')
     chat_id = os.getenv('CHAT_ID')
 
-    bot = telegram.Bot(token=support_bot_token)
+    while True:
+        try:
+            bot = telegram.Bot(token=support_bot_token)
 
-    logger.addHandler(SupportLogsHandler(bot, chat_id))
+            logger.addHandler(SupportLogsHandler(bot, chat_id))
 
-    vk_session = vk.VkApi(token=vk_group_token)
-    vk_api = vk_session.get_api()
+            vk_session = vk.VkApi(token=vk_group_token)
+            vk_api = vk_session.get_api()
 
-    longpoll = VkLongPoll(vk_session)
-    logger.info('VK-бот запущен')
-    for event in longpoll.listen():
-        if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                provide_support(event, vk_api)
+            longpoll = VkLongPoll(vk_session)
+            logger.info('VK-бот запущен')
+            for event in longpoll.listen():
+                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+                        provide_support(event, vk_api)
+        except Exception as ex:
+            logger.exception(ex)
 
 
 if __name__ == "__main__":
-    while True:
-        try:
-            main_vk()
-        except Exception as ex:
-            logger.exception(ex)
+    main()
