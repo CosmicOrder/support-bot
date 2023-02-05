@@ -34,15 +34,15 @@ def main_vk():
     logging.basicConfig(level=logging.ERROR)
     logger.setLevel(logging.DEBUG)
 
-    VK_GROUP_TOKEN = os.getenv('VK_GROUP_TOKEN')
-    SUPPORT_BOT_TOKEN = os.getenv('SUPPORT_BOT_TOKEN')
-    CHAT_ID = os.getenv('CHAT_ID')
+    vk_group_token = os.getenv('VK_GROUP_TOKEN')
+    support_bot_token = os.getenv('SUPPORT_BOT_TOKEN')
+    chat_id = os.getenv('CHAT_ID')
 
-    bot = telegram.Bot(token=SUPPORT_BOT_TOKEN)
+    bot = telegram.Bot(token=support_bot_token)
 
-    logger.addHandler(SupportLogsHandler(bot, CHAT_ID))
+    logger.addHandler(SupportLogsHandler(bot, chat_id))
 
-    vk_session = vk.VkApi(token=VK_GROUP_TOKEN)
+    vk_session = vk.VkApi(token=vk_group_token)
     vk_api = vk_session.get_api()
 
     longpoll = VkLongPoll(vk_session)

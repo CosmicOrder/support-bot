@@ -47,11 +47,11 @@ def main() -> None:
     logging.basicConfig(level=logging.ERROR)
     logger.setLevel(logging.DEBUG)
 
-    SUPPORT_BOT_TOKEN = os.getenv('SUPPORT_BOT_TOKEN')
-    CHAT_ID = os.getenv('CHAT_ID')
+    support_bot_token = os.getenv('SUPPORT_BOT_TOKEN')
+    chat_id = os.getenv('CHAT_ID')
 
-    updater = Updater(token=SUPPORT_BOT_TOKEN)
-    logger.addHandler(SupportLogsHandler(updater.bot, CHAT_ID))
+    updater = Updater(token=support_bot_token)
+    logger.addHandler(SupportLogsHandler(updater.bot, chat_id))
 
     dispatcher = updater.dispatcher
 
