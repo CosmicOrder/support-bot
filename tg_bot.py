@@ -29,7 +29,7 @@ from logs_handlers import SupportLogsHandler
 logger = logging.getLogger(__file__)
 
 
-def support_reply(update: Update, context: CallbackContext) -> None:
+def provide_support(update: Update, context: CallbackContext) -> None:
     """Reply the user message."""
 
     project_id = os.getenv('PROJECT_ID')
@@ -56,7 +56,7 @@ def main() -> None:
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(
-        MessageHandler(Filters.text & ~Filters.command, support_reply))
+        MessageHandler(Filters.text & ~Filters.command, provide_support))
 
     updater.start_polling()
     logger.info("ТГ-бот запущен")

@@ -14,7 +14,7 @@ from logs_handlers import SupportLogsHandler
 logger = logging.getLogger(__file__)
 
 
-def support_reply(event, vk_api):
+def provide_support(event, vk_api):
     project_id = os.getenv('PROJECT_ID')
     df_reply = detect_intent_texts(project_id=project_id,
                                    session_id=uuid.uuid4(),
@@ -49,7 +49,7 @@ def main_vk():
     logger.info('VK-бот запущен')
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            support_reply(event, vk_api)
+                provide_support(event, vk_api)
 
 
 if __name__ == "__main__":
