@@ -33,12 +33,12 @@ def provide_support(update: Update, context: CallbackContext) -> None:
     """Reply the user message."""
 
     project_id = os.getenv('PROJECT_ID')
-    df_reply = detect_intent_texts(project_id=project_id,
+    df_response = detect_intent_texts(project_id=project_id,
                                    session_id=uuid.uuid4(),
                                    language_code='eng',
-                                   texts=update.message.text,
-                                   type_bot='tg')
-    update.message.reply_text(df_reply)
+                                   texts=update.message.text)
+
+    update.message.reply_text(df_response.query_result.fulfillment_text)
 
 
 def main() -> None:

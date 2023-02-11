@@ -4,8 +4,7 @@ import uuid
 from google.cloud import dialogflow
 
 
-def detect_intent_texts(project_id, session_id, texts, language_code,
-                        type_bot):
+def detect_intent_texts(project_id, session_id, texts, language_code):
     """Returns the result of detect intent with texts as inputs.
     Using the same `session_id` between requests allows continuation
     of the conversation."""
@@ -22,10 +21,7 @@ def detect_intent_texts(project_id, session_id, texts, language_code,
     response = session_client.detect_intent(
         request={"session": session, "query_input": query_input}
     )
-    if response.query_result.intent.is_fallback and type_bot == 'vk':
-        return
-
-    return response.query_result.fulfillment_text
+    return response
 
 
 if __name__ == "__main__":

@@ -16,17 +16,17 @@ logger = logging.getLogger(__file__)
 
 def provide_support(project_id, event, vk_api):
 
-    df_reply = detect_intent_texts(project_id=project_id,
+    df_response = detect_intent_texts(project_id=project_id,
                                    session_id=uuid.uuid4(),
                                    language_code='eng',
-                                   texts=event.text,
-                                   type_bot='vk')
+                                   texts=event.text)
 
-    vk_api.messages.send(
-        user_id=event.user_id,
-        message=df_reply,
-        random_id=random.randint(1, 1000)
-    )
+    if not df_response.query_result.intent.is_fallback:
+        vk_api.messages.send(
+            user_id=event.user_id,
+            message=df_response.query_result.fulfillment_text,
+            random_id=random.randint(1, 1000)
+        )
 
 
 def main():
