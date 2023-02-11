@@ -33,8 +33,10 @@ def provide_support(update: Update, context: CallbackContext) -> None:
     """Reply the user message."""
 
     project_id = os.getenv('PROJECT_ID')
+    session_id = f'tg-{update.message.from_user["id"]}'
+
     df_response = detect_intent_texts(project_id=project_id,
-                                   session_id=uuid.uuid4(),
+                                   session_id=session_id,
                                    language_code='eng',
                                    texts=update.message.text)
 

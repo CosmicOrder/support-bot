@@ -15,9 +15,10 @@ logger = logging.getLogger(__file__)
 
 
 def provide_support(project_id, event, vk_api):
+    session_id = f'vk-{event.user_id}'
 
     df_response = detect_intent_texts(project_id=project_id,
-                                   session_id=uuid.uuid4(),
+                                   session_id=session_id,
                                    language_code='eng',
                                    texts=event.text)
 
