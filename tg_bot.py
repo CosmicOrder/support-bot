@@ -15,7 +15,6 @@ bot.
 
 import logging
 import os
-import uuid
 
 from dotenv import load_dotenv
 from telegram import Update
@@ -24,7 +23,6 @@ from telegram.ext import Updater, MessageHandler, Filters, \
 
 from detect_intent_texts import detect_intent_texts
 from logs_handlers import SupportLogsHandler
-
 
 logger = logging.getLogger(__file__)
 

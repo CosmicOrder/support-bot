@@ -1,7 +1,6 @@
 import logging
 import os
 import random
-import uuid
 
 import telegram
 import vk_api as vk
